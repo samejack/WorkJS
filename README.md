@@ -15,7 +15,7 @@ $ npm install
 # run example
 $ npm start
 ```
-Open your browser to go http://127.0.0.1:3000
+Open your browser and go http://127.0.0.1:3000
 
 ## Controller JavaScript Example (book.js)
 ```javascript
@@ -68,6 +68,34 @@ var BookController = Base.extend(
 
 module.exports = BookController;
 ```
+
+## Create first WorkJS App
+
+Create a bootstrap JavaScript file (app.js) as follows:
+```javascript
+var WorkCore = require(__dirname + '/../src/core/work');
+
+var workCore = new WorkCore({
+  // your controller's path
+  controllerPath: [__dirname + '/controller']
+}).start();
+```
+Run it
+```sh
+# run by nodejs
+$ sudo node app.js
+```
+WorkJS default is bind on localhost:80 port. Open your browser and go http://127.0.0.1
+
+## Configrations
+
+Parameter | Default | Note
+--------- | ------- | ----
+port | 3000 | Server port
+host | localhost | Server host
+controllerPath | ./controller directory | Controller JS file path
+cors | true | Enable CORS Header for corss domain web server
+staticPath | ./public directory | HTTP document root
 
 ## Future Work
 * Integrate [APIDoc](https://github.com/samejack/apidoc-core) to defined router.
