@@ -6,50 +6,42 @@ var annotations = require('conga-annotations');
 var Base = require('basejs');
 var express = require('express');
 
-module.exports = Base.extend(
+var WorkCore = Base.extend(
   {
-
-    //app: null,
-    //io: null,
-    //http: null,
-    //config: {},
-    //reader: null,
-    //logger: null,
-
+    app: null,
+    io: null,
+    http: null,
+    config: {},
+    reader: null,
+    logger: null,
+    defaultConfig: {
+      port: 80,
+      host: 'localhost',
+      controllerPath: 'controller',
+      cors: false,
+      staticPath: false
+    },
     constructor: function (config) {
 
-      var defaultConfig = {
-        port: 80,
-        host: 'localhost',
-        controllerPath: 'controller',
-        cors: false,
-        staticPath: false
-      };
-
       this.app = express();
+      this.config = config;
       this.http = require('http').Server(this.app);
       this.io = require('socket.io')(this.http);
       this.logger = require('../lib/logger');
 
-      this.config = {};
-      this.config.port = config.port || defaultConfig.port;
-      this.config.host = config.host || defaultConfig.host;
-      this.config.controllerPath = config.controllerPath || defaultConfig.controllerPath;
-      this.config.cors = config.cors || defaultConfig.cors;
-      this.config.staticPath = config.staticPath || defaultConfig.staticPath;
-
       // create the registry
       var registry = new annotations.Registry();
 
-//      registry.registerAnnotation(path.join(__dirname, '/../annotation/rest-api-annotation'));
       registry.registerAnnotation(path.join(__dirname, '/../annotation/rest-method-annotation'));
       registry.registerAnnotation(path.join(__dirname, '/../annotation/rest-uri-annotation'));
+//      registry.registerAnnotation(path.join(__dirname, '/../annotation/rest-api-annotation'));
 //      registry.registerAnnotation(path.join(__dirname, '/../annotation/rest-controller-annotation'));
 
       // create the annotation reader
       this.reader = new annotations.Reader(registry);
 
       // CORS
+      this.config.cors = this.config.cors || this.defaultConfig.cors;
       if (this.config.cors === true) {
         var cors = require('cors');
         this.app.use(cors());
@@ -69,7 +61,7 @@ module.exports = Base.extend(
           this.setupController(this.config.controllerPath[index]);
         }
       } else {
-        this.setupController(this.config.controllerPath);
+        this.setupController(this.config.controllerPath || this.defaultConfig.controllerPath);
       }
 
       this.app.io = this.io;
@@ -155,14 +147,16 @@ module.exports = Base.extend(
     },
     start: function () {
       // bind server to tcp
+      var port = this.config.port || this.defaultConfig.port;
+      var host = this.config.host || this.defaultConfig.host;
+
       this.http.listen(
-        this.config.port,
-        this.config.host,
+        port,
+        host,
         function () {
-          this.logger.info('WorkJS Server listening on ' + this.config.host + ':' + this.config.port);
+          this.logger.info('WorkJS Server listening on ' + host + ':' + port);
         }.bind(this)
       );
-      return this;
     },
     getApp: function () {
       return this.app;
@@ -175,3 +169,4 @@ module.exports = Base.extend(
     }
   }
 );
+module.exports = WorkCore;
