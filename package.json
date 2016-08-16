@@ -1,7 +1,6 @@
 {
-  "name": "WorkJS",
+  "name": "workjs-core",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "basejs": "~1.1.1",
     "conga-annotations": "^0.1.8",
@@ -16,5 +15,22 @@
   },
   "engines": {
     "node": ">= 0.8.x"
-  }
+  },
+  "description": "WorkJS is a NodeJS Web Design Pattern. Use JS annotation (JS Doc) to design your backend service and defined router.",
+  "main": "src/core/work.js",
+  "directories": {
+    "example": "example"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://samejack@bitbucket.org/samejack/workjs.git"
+  },
+  "keywords": [
+    "workjs",
+    "annotation",
+    "router"
+  ],
+  "author": "SJ",
+  "license": "Apache 2.0"
 }
