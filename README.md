@@ -4,6 +4,7 @@ WorkJS includes basejs, express and socket.io project.
 Write document and defined router at same time. Maybe, you can build your http service quickly.
 
 ## Getting Started
+Install from GitHub
 ```sh
 # get code
 $ git clone https://github.com/samejack/WorkJS.git
@@ -16,6 +17,11 @@ $ npm install
 $ npm start
 ```
 Open your browser and go http://127.0.0.1:3000
+
+Install from npm package repository
+```sh
+$ npm install workjs-core basejs
+```
 
 ## Controller JavaScript Example (book.js)
 ```javascript
@@ -87,7 +93,7 @@ $ sudo node app.js
 ```
 WorkJS default is bind on localhost:80 port. Open your browser and go http://127.0.0.1
 
-## Configrations
+## Configrations ([Example](https://github.com/samejack/WorkJS/blob/master/example/app.js))
 
 Parameter | Default | Note
 --------- | ------- | ----
