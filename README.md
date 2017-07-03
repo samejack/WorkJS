@@ -1,6 +1,6 @@
 # WorkJS [![Build Status](https://travis-ci.org/samejack/point-core.svg?branch=master)](https://travis-ci.org/samejack/point-core)
-WorkJS is a NodeJS Web Design Pattern. Use JS annotation (JS Doc) to design your backend service and defined router.
-WorkJS includes basejs, express and socket.io project.
+WorkJS is a NodeJS Web Design Pattern (tiny framework!?). Use JS annotation (JS Doc) to design your backend service (API) and defined router as the same time.
+WorkJS includes basejs, express and socket.io project. You can build your controller use Object-Oriented Programming.
 Write document and defined router at same time. Maybe, you can build your http service quickly.
 
 ## Getting Started
@@ -79,7 +79,7 @@ module.exports = BookController;
 
 Create a bootstrap JavaScript file (app.js) as follows:
 ```javascript
-var WorkCore = require(__dirname + '/../src/core/work');
+var WorkCore = require('workjs-core');
 
 var workCore = new WorkCore({
   // your controller's path
