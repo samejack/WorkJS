@@ -20,7 +20,7 @@ Open your browser and go http://127.0.0.1:3000
 
 #### Install from npm package repository
 ```sh
-$ npm install workjs-core basejs
+$ npm install workjs-core
 ```
 
 ## Controller JavaScript Example (book.js)
