@@ -19,15 +19,21 @@ var WorkCore = Base.extend(
       host: 'localhost',
       controllerPath: 'controller',
       cors: false,
-      staticPath: false
+      staticPath: false,
+      baseUrl: ''
     },
     constructor: function (config) {
 
-      this.app = express();
+      // Base URL
       this.config = config;
-      this.http = require('http').Server(this.app);
-      this.io = require('socket.io')(this.http);
+      this.config.baseUrl = this.config.baseUrl || this.defaultConfig.baseUrl;
       this.logger = require('../lib/logger');
+
+      var socketIoPath = this.config.baseUrl + '/socket.io';
+      this.app = express();
+      this.http = require('http').Server(this.app);
+      this.io = require('socket.io')(this.http, {path: socketIoPath});
+      this.logger.info('Socket.IO route: ' + socketIoPath);
 
       // create the registry
       var registry = new annotations.Registry();
@@ -50,10 +56,13 @@ var WorkCore = Base.extend(
 
       // Public document root
       if (typeof(this.config.staticPath) === 'string') {
-        this.app.use(express.static(this.config.staticPath));
+        if (this.config.baseUrl === '') {
+          this.app.use(express.static(this.config.staticPath));
+        } else {
+          this.app.use(this.config.baseUrl, express.static(this.config.staticPath));
+        }
         this.logger.info('Static Path: ' + this.config.staticPath);
       }
-
 
       // load controller
       if (typeof(this.config.controllerPath) === 'object') {
@@ -116,27 +125,22 @@ var WorkCore = Base.extend(
             for (var func in controllers) {
               if (typeof(controllers[func].method) !== 'undefined'
                 && typeof(controllers[func].uri) !== 'undefined') {
-                this.logger.info('Register route: [' + controllers[func].method + '] ' + controllers[func].uri);
+                this.logger.info('Register route: [' +
+                  controllers[func].method + '] ' +
+                  this.config.baseUrl +
+                  controllers[func].uri
+                );
                 var routeCallback = function (controller, func) {
                   return function (req, res) {
                     controller[func].apply( controller, arguments);
                   };
                 } (controller, func);
-                switch (controllers[func].method) {
-                  case 'GET':
-                    this.app.get(controllers[func].uri, routeCallback);
-                    break;
-                  case 'POST':
-                    this.app.post(controllers[func].uri, routeCallback);
-                    break;
-                  case 'PUT':
-                    this.app.put(controllers[func].uri, routeCallback);
-                    break;
-                  case 'DELETE':
-                    this.app.delete(controllers[func].uri, routeCallback);
-                    break;
-                  default:
-                    this.logger.error('Http method not match.');
+                // register router
+                var httpMethod = controllers[func].method.toLowerCase();
+                if (typeof(this.app[httpMethod]) === 'function') {
+                  this.app[httpMethod].apply(this.app, [this.config.baseUrl + controllers[func].uri, routeCallback]);
+                } else {
+                  this.logger.error('Http method not match.');
                 }
               }
             }
