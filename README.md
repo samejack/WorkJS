@@ -1,4 +1,4 @@
-# WorkJS [![Build Status](https://travis-ci.org/samejack/point-core.svg?branch=master)](https://travis-ci.org/samejack/point-core)
+# WorkJS [![Build Status](https://travis-ci.org/samejack/point-core.svg?branch=master)](https://travis-ci.org/samejack/WorkJS)
 WorkJS is a NodeJS Web Design Pattern (tiny framework!?). Use JS annotation (JS Doc) to design your backend service (API) and defined router as the same time.
 WorkJS includes basejs, express and socket.io project. You can build your controller use Object-Oriented Programming.
 Write document and defined router at same time. Maybe, you can build your http service quickly.
