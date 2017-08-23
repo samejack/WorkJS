@@ -20,14 +20,15 @@ var WorkCore = Base.extend(
       controllerPath: 'controller',
       cors: false,
       staticPath: false,
-      baseUrl: ''
+      baseUrl: '',
+      logPath: 'logs'
     },
     constructor: function (config) {
 
       // Base URL
       this.config = config;
       this.config.baseUrl = this.config.baseUrl || this.defaultConfig.baseUrl;
-      this.logger = require('../lib/logger');
+      this.logger = require('../lib/logger')(this.config.logPath);
 
       var socketIoPath = this.config.baseUrl + '/socket.io';
       this.app = express();
@@ -130,11 +131,11 @@ var WorkCore = Base.extend(
                   this.config.baseUrl +
                   controllers[func].uri
                 );
-                var routeCallback = function (controller, func) {
+                var routeCallback = function (controller, func, workJS) {
                   return function (req, res) {
-                    controller[func].apply( controller, arguments);
-                  };
-                } (controller, func);
+                    controller[func].apply(this, arguments);
+                  }.bind(workJS);
+                } (controller, func, this);
                 // register router
                 var httpMethod = controllers[func].method.toLowerCase();
                 if (typeof(this.app[httpMethod]) === 'function') {
