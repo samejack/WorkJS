@@ -1,6 +1,6 @@
 {
   "name": "workjs-core",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "dependencies": {
     "basejs": "~1.1.1",
     "conga-annotations": "^0.1.8",
