@@ -60,11 +60,6 @@ var logger = function (logPath) {
         colorize: true,
         timestamp: function() {
           return (new Date()).toISOString();
-        },
-        formatter: function(options) {
-          return options.timestamp() + ' [' + options.level.toUpperCase() + '] ' +
-            (options.message ? options.message : '') +
-            (options.meta && Object.keys(options.meta).length ? '\n\t' + JSON.stringify(options.meta) : '');
         }
       })
     ],
