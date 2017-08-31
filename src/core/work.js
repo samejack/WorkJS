@@ -133,9 +133,10 @@ var WorkCore = Base.extend(
                 );
                 var routeCallback = function (controller, func, workJS) {
                   return function (req, res) {
-                    controller[func].apply(this, arguments);
-                  }.bind(workJS);
+                    controller[func].apply(controller, [req, res, workJS]);
+                  };
                 } (controller, func, this);
+
                 // register router
                 var httpMethod = controllers[func].method.toLowerCase();
                 if (typeof(this.app[httpMethod]) === 'function') {

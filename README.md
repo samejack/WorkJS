@@ -40,7 +40,7 @@ var BookController = Base.extend(
      * @Uri("/book")
      * @Method("GET")
      */
-    getBookList: function(req, res) {
+    getBookList: function(req, res, workJS) {
     },
     /**
      * Get book information by ISBN
@@ -48,7 +48,7 @@ var BookController = Base.extend(
      * @Uri("/book/:isbn")
      * @Method("GET")
      */
-    getBookInfo: function(req, res) {
+    getBookInfo: function(req, res, workJS) {
     },
     /**
      * Create book
@@ -56,7 +56,7 @@ var BookController = Base.extend(
      * @Uri("/book")
      * @Method("POST")
      */
-    createBook: function(req, res) {
+    createBook: function(req, res, workJS) {
     },
     /**
      * Modify book
@@ -64,7 +64,7 @@ var BookController = Base.extend(
      * @Uri("/book/:isbn")
      * @Method("PUT")
      */
-    modifyBook: function(req, res) {
+    modifyBook: function(req, res, workJS) {
     },
     /**
      * Delete book
@@ -72,7 +72,7 @@ var BookController = Base.extend(
      * @Uri("/book/:isbn")
      * @Method("DELETE")
      */
-    deleteBook: function(req, res) {
+    deleteBook: function(req, res, workJS) {
     }
   }
 );

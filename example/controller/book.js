@@ -23,8 +23,9 @@ var BookController = Base.extend(
      * @Uri("/book")
      * @Method("GET")
      */
-    getBookList: function(req, res) {
+    getBookList: function(req, res, workJS) {
       this.openDatabase(function(database) {
+        workJS.getLogger().debug('get book list.');
         var list = [];
         for (var isbn in database) {
           list.push(database[isbn]);
@@ -39,8 +40,9 @@ var BookController = Base.extend(
      * @Uri("/book/:isbn")
      * @Method("GET")
      */
-    getBookInfo: function(req, res) {
+    getBookInfo: function(req, res, workJS) {
       this.openDatabase(function(database) {
+        workJS.getLogger().debug('get book info: ' + req.params.isbn);
         res.contentType('application/json');
         if (typeof(database[req.params.isbn]) === 'object') {
           res.status(200).send(JSON.stringify(database[req.params.isbn]));
@@ -55,7 +57,7 @@ var BookController = Base.extend(
      * @Uri("/book")
      * @Method("POST")
      */
-    createBook: function(req, res) {
+    createBook: function(req, res, workJS) {
       req.rawBody = '';
       req.setEncoding(this.encode);
       req.on('data', function(chunk) {
@@ -64,6 +66,7 @@ var BookController = Base.extend(
       req.on('end', function() {
         console.log('Request body: ' + req.rawBody);
         var obj = JSON.parse(req.rawBody);
+        workJS.getLogger().info('create book: ', obj);
         this.openDatabase(function(database) {
           res.contentType('application/json');
           if (!obj.isbn) {
@@ -86,7 +89,7 @@ var BookController = Base.extend(
      * @Uri("/book/:isbn")
      * @Method("PUT")
      */
-    modifyBook: function(req, res) {
+    modifyBook: function(req, res, workJS) {
       req.rawBody = '';
       req.setEncoding(this.encode);
       req.on('data', function(chunk) {
@@ -95,6 +98,7 @@ var BookController = Base.extend(
       req.on('end', function() {
         console.log('Request body: ' + req.rawBody);
         var obj = JSON.parse(req.rawBody);
+        workJS.getLogger().info('modify book: ', obj);
         this.openDatabase(function(database) {
           res.contentType('application/json');
           if (req.params.isbn && typeof(database[req.params.isbn]) === 'object') {
@@ -114,8 +118,9 @@ var BookController = Base.extend(
      * @Uri("/book/:isbn")
      * @Method("DELETE")
      */
-    deleteBook: function(req, res) {
+    deleteBook: function(req, res, workJS) {
       this.openDatabase(function(database) {
+        workJS.getLogger().info('delete book: ' + req.params.isbn);
         res.contentType('application/json');
         if (req.params.isbn && typeof(database[req.params.isbn]) === 'object') {
           delete database[req.params.isbn];
