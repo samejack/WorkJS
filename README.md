@@ -5,7 +5,7 @@ Write document and defined router at same time. Maybe, you can build your http s
 
 [npm-image]: https://img.shields.io/npm/v/workjs-core.svg
 [npm-url]: https://npmjs.org/package/workjs-core
-[travis-image]: https://travis-ci.org/samejack/point-core.svg?branch=master
+[travis-image]: https://travis-ci.org/samejack/WorkJS.svg?branch=master
 [travis-url]: https://travis-ci.org/samejack/WorkJS
 
 ## Getting Started
